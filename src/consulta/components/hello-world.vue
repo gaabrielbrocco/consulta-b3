@@ -7,7 +7,12 @@
         cols="auto"
         class="pa-0 mx-2"
       >
-        <v-card class="card-color rounded-lg" width="200" height="100">
+        <v-card
+          class="card-color rounded-lg"
+          width="200"
+          height="100"
+          @click="controller.buscaAcoes(item)"
+        >
           <v-row>
             <v-col cols="8">
               <v-card-title class="text-h6">{{ item.stock }}</v-card-title>
@@ -35,8 +40,9 @@
           variant="solo"
           hide-details
           single-line
-          @click:append-inner="controller.buscaAcoes"
+          @click:append-inner="controller.buscaAcoes()"
           bg-color="#0f131e"
+          @keyup.enter="controller.buscaAcoes()"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -90,6 +96,7 @@
       <v-col cols="2">
         <div>Min. 52 Semanas</div>
         <div class="text-h5 font-weight-bold">
+          R$
           {{
             controller.acao.value.fiftyTwoWeekLow === 0
               ? "--"
@@ -100,6 +107,7 @@
       <v-col cols="2">
         <div>Máx. 52 Semanas</div>
         <div class="text-h5 font-weight-bold">
+          R$
           {{
             controller.acao.value.fiftyTwoWeekHigh === 0
               ? "--"

@@ -19,9 +19,15 @@ const consultaController =
       mostraCapitalizacaoMercado();
     });
 
-    const buscaAcoes = async () => {
+    const buscaAcoes = async (item) => {
       try {
+        if (!item) {
+          acao.value = await buscaAcaoUseCase(acaoSelecionada.value);
+          return;
+        }
+        acaoSelecionada.value = item.stock;
         acao.value = await buscaAcaoUseCase(acaoSelecionada.value);
+        acaoSelecionada.value = item.stock;
       } catch (error) {
         console.log(error);
       }

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="py-10 mt-10">
+  <v-container class="py-10 mt-10" max-width="1500">
     <v-row no-gutters class="flex-nowrap overflow-x-auto">
       <v-col
         v-for="(item, index) in controller.listaAcoes.value"
@@ -25,25 +25,127 @@
       </v-col>
     </v-row>
 
-    <v-row class="d-flex justify-center align center">
-      <v-col cols="6">
+    <v-row class="d-flex justify-center align-center py-10">
+      <v-col cols="3">
         <v-text-field
           v-model="controller.acaoSelecionada.value"
-          label="Digite a ação"
-        >
-        </v-text-field>
-      </v-col>
-    </v-row>
-    <v-row class="d-flex justify-center align center">
-      <v-col cols="12">
-        <v-btn @click="controller.buscaAcoes"> </v-btn>
+          append-inner-icon="mdi-magnify"
+          density="compact"
+          label="Buscar ativos"
+          variant="solo"
+          hide-details
+          single-line
+          @click:append-inner="controller.buscaAcoes"
+          bg-color="#0f131e"
+        ></v-text-field>
       </v-col>
     </v-row>
 
-    <v-row class="d-flex justify-center align center">
-      <v-col cols="12">
-        {{ controller.acao.value.regularMarketPrice }}
-        <v-img width="100" :src="controller.acao.value.logourl"> </v-img>
+    <v-row class="px-5 py-10">
+      <v-col cols="1">
+        <v-img
+          width="70"
+          height="70"
+          :src="controller.acao.value.logourl"
+          class="rounded"
+        >
+        </v-img>
+      </v-col>
+      <v-col cols="4">
+        <div class="text-h5">
+          {{ controller.acao.value.symbol }}
+        </div>
+        <div>
+          {{ controller.acao.value.longName }}
+        </div>
+      </v-col>
+    </v-row>
+
+    <v-row class="px-5">
+      <v-col cols="2">
+        <div>Preço</div>
+        <div class="text-h5 font-weight-bold">
+          R$ {{ controller.acao.value.regularMarketPrice }}
+        </div>
+      </v-col>
+      <v-col cols="3">
+        <div>Variação (dia)</div>
+        <div class="text-h5 font-weight-bold">
+          R$ {{ controller.acao.value.regularMarketChange }}(
+          <span
+            class="font-weight-bold"
+            :style="{
+              color:
+                controller.acao.value.regularMarketChangePercent < 0
+                  ? 'red'
+                  : 'green',
+            }"
+          >
+            {{
+              controller.acao.value.regularMarketChangePercent?.toFixed(2)
+            }}% </span
+          >)
+        </div>
+      </v-col>
+      <v-col cols="2">
+        <div>Min. 52 Semanas</div>
+        <div class="text-h5 font-weight-bold">
+          {{
+            controller.acao.value.fiftyTwoWeekLow === 0
+              ? "--"
+              : controller.acao.value.fiftyTwoWeekLow
+          }}
+        </div>
+      </v-col>
+      <v-col cols="2">
+        <div>Máx. 52 Semanas</div>
+        <div class="text-h5 font-weight-bold">
+          {{
+            controller.acao.value.fiftyTwoWeekHigh === 0
+              ? "--"
+              : controller.acao.value.fiftyTwoWeekHigh
+          }}
+        </div>
+      </v-col>
+
+      <v-col cols="3">
+        <v-card width="360" max-height="500" class="color-card-capitalizacao">
+          <v-card-title class="font-weight-bold">
+            Capitalização de mercado</v-card-title
+          >
+
+          <v-card-text
+            class="overflow-y-auto"
+            v-for="(item, index) in controller.capitalizacaoMercado.value"
+            :key="index"
+          >
+            <v-row>
+              <v-col cols="2">
+                <v-img class="rounded-circle" width="50" :src="item.logo">
+                </v-img>
+              </v-col>
+              <v-col cols="10">
+                <div class="font-weight-bold">
+                  {{ item.name }}
+                </div>
+                <div>
+                  {{ item.stock }}
+                  <span
+                    class="font-weight-bold"
+                    :style="{ color: item.change < 0 ? 'red' : 'green' }"
+                  >
+                    <v-icon :color="item.change < 0 ? 'red' : 'green'">
+                      {{ item.change < 0 ? "mdi-menu-down" : "mdi-menu-up" }}
+                    </v-icon>
+                    {{ item.change.toFixed(2) }}%
+                  </span>
+                  | R$ {{ item.close.toFixed(2) }}
+                </div>
+              </v-col>
+            </v-row>
+            <v-divider class="mt-2"></v-divider>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -62,11 +164,11 @@ const { controller } = defineProps({
 .card-color {
   background-color: #0f131e;
 }
-
-.teste {
-  overflow-y: auto;
-}
 .overflow-x-auto {
   overflow-x: auto;
+}
+
+.color-card-capitalizacao {
+  background-color: #030712;
 }
 </style>

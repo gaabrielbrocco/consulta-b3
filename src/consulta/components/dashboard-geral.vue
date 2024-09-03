@@ -167,7 +167,7 @@
           :style="{ backgroundColor: cardColor }"
           elevation="0"
           max-height="460"
-          max-width="400"
+          max-width="380"
           class="rounded-lg"
         >
           <v-card-title
@@ -176,14 +176,17 @@
             Capitalização de mercado
           </v-card-title>
 
-          <v-card-text class="overflow-y-auto pa-0" style="max-height: 400px">
+          <v-card-text
+            class="overflow-y-auto overflow-x-hidden pa-0"
+            style="max-height: 400px"
+          >
             <v-row
               v-for="(item, index) in controller.capitalizacaoMercado.value"
               :key="index"
             >
               <v-col cols="3" md="2">
                 <v-img
-                  class="ml-3 rounded-circle"
+                  class="ml-5 rounded-circle"
                   :width="isMobile ? 40 : 50"
                   :src="item.logo"
                 ></v-img>

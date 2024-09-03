@@ -16,6 +16,6 @@ export default defineComponent({
 
 <style>
 main {
-  background-color: #030712;
+  background-color: white;
 }
 </style>

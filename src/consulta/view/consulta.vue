@@ -1,10 +1,10 @@
 <template>
-  <hello-world :controller="controller" />
+  <dashboard-geral :controller="controller" />
 </template>
 
 <script setup>
 import { consultaControllerImpl } from "../di/di";
-import HelloWorld from "../components/hello-world.vue";
+import DashboardGeral from "../components/dashboard-geral.vue";
 
 const controller = consultaControllerImpl();
 </script>

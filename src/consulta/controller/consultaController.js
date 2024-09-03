@@ -1,5 +1,6 @@
 import { onMounted, ref } from "vue";
 import Acao from "../domain/model/acao";
+import axios from "axios";
 
 const consultaController =
   (
@@ -17,7 +18,17 @@ const consultaController =
     onMounted(async () => {
       mostraListaAcoes();
       mostraCapitalizacaoMercado();
+      buscaAcaoMounted();
     });
+
+    const buscaAcaoMounted = async () => {
+      const response = await axios.get(
+        `https://brapi.dev/api/quote/B3SA3?token=${
+          import.meta.env.VITE_API_TOKEN
+        }`
+      );
+      acao.value = response?.data?.results[0] ?? [];
+    };
 
     const buscaAcoes = async (item) => {
       try {
@@ -55,6 +66,7 @@ const consultaController =
       acaoSelecionada,
       listaAcoes,
       capitalizacaoMercado,
+      buscaAcaoMounted,
       buscaAcoes,
       mostraListaAcoes,
       mostraCapitalizacaoMercado,
